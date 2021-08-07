@@ -53,6 +53,21 @@ class Customer {
     return new Customer(customer);
   }
 
+    /** get a customer by name (either first_name or last_name). */
+  static async getByName(name){
+
+    const results = await db.query(
+      `SELECT id, 
+      first_name AS "firstName",
+      last_name AS "lastName",
+      phone, notes
+      FROM customers
+      WHERE (lower(first_name) = $1)
+      OR (lower(last_name) = $2)`,
+      [name, name]
+    )
+    return results.rows.map(c => new Customer(c))
+  }
   /** get all reservations for this customer. */
 
   async getReservations() {
@@ -77,6 +92,10 @@ class Customer {
         [this.firstName, this.lastName, this.phone, this.notes, this.id]
       );
     }
+  }
+
+  fullName(){
+    return `${this.firstName} ${this.lastName}`
   }
 }
 
