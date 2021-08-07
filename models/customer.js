@@ -53,7 +53,8 @@ class Customer {
     return new Customer(customer);
   }
 
-    /** get a customer by name (either first_name or last_name). */
+  /** get a customer by name (either first_name or last_name). */
+
   static async getByName(name){
 
     const results = await db.query(
@@ -68,6 +69,7 @@ class Customer {
     )
     return results.rows.map(c => new Customer(c))
   }
+  
   /** get all reservations for this customer. */
 
   async getReservations() {
